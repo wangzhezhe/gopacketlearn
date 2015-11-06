@@ -167,6 +167,9 @@ func processPacketInfo(packet gopacket.Packet) {
 		//send the packet from local machine
 		Srcaddr := &Address{IP: srcip.String(), PORT: srcport.String()}
 		Destaddr := &Address{IP: destip.String(), PORT: destport.String()}
+		if glog.V(2) {
+			glog.Infof("srcaddr %v destaddr %v \n", Srcaddr, Destaddr)
+		}
 		var mutex = &sync.Mutex{}
 
 		if srcip.String() == localip {
@@ -194,7 +197,6 @@ func main() {
 	}
 
 	defer handle.Close()
-
 	packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
 	templocalip, err := checkLocalip(device)
 	localip = templocalip
